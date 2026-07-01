@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.android.mininetflix.overview.OverviewViewModel
-import com.example.android.mininetflix.overview.TmdbApiStatus
 import com.example.mininetflix.databinding.FragmentOverviewBinding
 
 class OverviewFragment : Fragment() {

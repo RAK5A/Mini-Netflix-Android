@@ -1,13 +1,8 @@
 package com.example.mininetflix
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import com.example.android.mininetflix.overview.OverviewViewModel
-import com.example.android.mininetflix.overview.TmdbApiStatus
 import com.example.mininetflix.databinding.ActivityMainBinding
-import com.example.mininetflix.overview.MoviePosterAdapter
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

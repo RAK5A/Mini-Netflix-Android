@@ -3,6 +3,13 @@
     <style name="Base.Theme.MiniNetflix" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/netflix_red</item>
+        <item name="colorOnPrimary">@color/netflix_text_primary</item>
+        <item name="android:windowBackground">@color/netflix_black</item>
+        <item name="android:statusBarColor">@color/netflix_black</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">@color/netflix_black</item>
+        <item name="android:windowLightNavigationBar">false</item>
     </style>
 
     <style name="Theme.MiniNetflix" parent="Base.Theme.MiniNetflix" />

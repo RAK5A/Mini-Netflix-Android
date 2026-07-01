@@ -5,6 +5,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 private const val BASE_URL = "https://api.themoviedb.org/3/"
@@ -27,6 +28,13 @@ interface TmdbApiService {
         @Query("language") language: String = "en-US",
         @Query("page") page: Int = 1
     ): MovieResponse
+
+    @GET("movie{movie_id}/videos")
+    suspend fun getVideos(
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String = "en-US"
+    ) : VideoResponse
 }
 
 // A single shared instance of the service (created the first time it is used).

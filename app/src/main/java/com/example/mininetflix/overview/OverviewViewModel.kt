@@ -1,4 +1,4 @@
-package com.example.android.mininetflix.overview
+package com.example.mininetflix.overview
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

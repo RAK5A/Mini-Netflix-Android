@@ -1,10 +1,14 @@
 package com.example.mininetflix.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.mininetflix.databinding.FragmentDetailBinding
@@ -16,6 +20,9 @@ class DetailFragment : Fragment() {
 
     // SafeArgs: the Movie passed from OverviewFragment.
     private val args: DetailFragmentArgs by navArgs()
+    private val viewModel: DetailViewModel by lazy {
+        ViewModelProvider(this)[DetailViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -39,6 +46,47 @@ class DetailFragment : Fragment() {
                 .load("https://image.tmdb.org/t/p/w780$imagePath")
                 .into(binding.detailImage)
         }
+        /*viewModel.fetchTrailer(movie.id)
+        viewModel.trailerKey.observe(viewLifecycleOwner) {
+            trailerKey ->
+            if (trailerKey != null) {
+                Log.d("trailer", "Trailer Key = $trailerKey")
+            }
+        }*/
+
+        // Trailer: both the big red button AND the centered hero icon share the same
+        // handler and the same visibility (shown only when a YouTube trailer exists).
+        viewModel.fetchTrailer(movie.id)
+        viewModel.trailerKey.observe(viewLifecycleOwner) { key ->
+            val visible = if (key != null) View.VISIBLE else View.GONE
+            binding.playTrailerButton.visibility = visible
+            binding.heroPlayButton.visibility = visible
+            if (key != null) {
+                val openTrailer = View.OnClickListener {
+                    val url = "https://www.youtube.com/watch?v=$key".toUri()
+                    startActivity(Intent(Intent.ACTION_VIEW, url))
+                }
+                binding.playTrailerButton.setOnClickListener(openTrailer)
+                binding.heroPlayButton.setOnClickListener(openTrailer)
+            }
+        }
+
+        // Share: opens the system share sheet with title + TMDB link.
+        binding.shareButton.setOnClickListener {
+            val shareText = "${'$'}{movie.title} — https://www.themoviedb.org/movie/${'$'}{movie.id}"
+            val sendIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_SUBJECT, movie.title)
+                putExtra(Intent.EXTRA_TEXT, shareText)
+            }
+            startActivity(Intent.createChooser(sendIntent, "Share movie via"))
+        }
+
+        // My List placeholder — real save-to-Room arrives in Sprint 9.
+        binding.myListButton.setOnClickListener {
+            Toast.makeText(requireContext(), "My List coming in Sprint 9", Toast.LENGTH_SHORT).show()
+        }
+
         return binding.root
     }
 
